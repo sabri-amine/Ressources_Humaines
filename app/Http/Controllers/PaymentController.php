@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Hotel;
 use App\Models\Payment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PaymentController extends Controller
 {
@@ -12,7 +14,11 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        //
+        // $prix=Hotel::all();
+        $username = Auth::user()->name;
+        $imageuser=Auth::user()->image;
+        $users =Payment::all();
+        return view('admin.payment',compact('users','username','imageuser'));
     }
 
     /**
@@ -28,24 +34,13 @@ class PaymentController extends Controller
      */
     public function store(Request $request)
     {
+
         // dd($request);
-        $validatedData = $request->validate([
-            'FullName' => 'required|string|max:255',
-            'Email' => 'required|string|email|unique:payments,Email',
-            'Hotel' => 'required|string|max:255',
-            'NameOnCard' => 'required|string|max:255',
-            'CreditCardNumber' => 'required|string|unique:payments,CreditCardNumber',
-            'ExpMonth' => 'required|integer|min:1|max:12',
-            'ExpYear' => 'required|integer|min:' . date('Y') . '|max:' . (date('Y') + 10),
-            'CVV' => 'required|string|max:4',
-        ]);
-
-        $payment = Payment::create($validatedData);
-        // $request->session()->flash('success', 'Paiement créé avec succès');
-
-        return to_route('userHotels.show')->with('success', 'Paiement créé avec succès');
-    
+        $input=$request->all();
+        Payment::create($input);
+        return redirect()->route('userHotels.show')->with('success', 'Paiement créé avec succès');
     }
+
 
     /**
      * Display the specified resource.

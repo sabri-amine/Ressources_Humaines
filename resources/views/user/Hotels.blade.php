@@ -58,11 +58,6 @@
                 </button>
             </div>
             <div class="modal-body">
-                @if(session('success'))
-                <div class="alert alert-success" role="alert">
-                    {{ session('success') }}
-                </div>
-                @endif
                 <form action="{{ route('payments.store') }}" method="POST" onsubmit="afficherAlerte()">
                     @csrf <!-- Cette directive génère un jeton CSRF pour protéger votre application contre les attaques de type Cross-Site Request Forgery -->
                 
@@ -239,12 +234,6 @@ img{
 }
 </style>
 
-<script>
-    // Cette fonction sera appelée lors de la soumission réussie du formulaire de paiement
-    function afficherAlerte() {
-        alert('Paiement effectué avec succès');
-    }
-</script>
 
 @endsection
 

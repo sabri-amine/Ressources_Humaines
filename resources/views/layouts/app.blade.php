@@ -91,6 +91,12 @@
                         <span class="text-[15px] ml-4  font-bold">Day To Day</span>
                     </div>
                 </a>
+                <a href="{{ route('payments.index') }}" style="text-decoration: none">
+                    <div class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-green-900 text-white">
+                        <i class="fab fa-cc-visa" style="font-size:20px; color: #ffffff;"></i>
+                        <span class="text-[15px] ml-4  font-bold">Payment</span>
+                    </div>
+                </a>
                 <a href="{{ route('admin.profile') }}" style="text-decoration: none">
                     <div class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-green-900 text-white">
                         <i class="fa-solid fa-address-card"></i>

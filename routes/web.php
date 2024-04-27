@@ -100,6 +100,7 @@ Route::put('/medical/{medical}',[medicalController::class, 'update'])->name('med
 
 
 Route::post('/payments', [PaymentController::class, 'store'])->name('payments.store');
+Route::get('/payments/admin', [PaymentController::class, 'index'])->name('payments.index');
 
 
 
