@@ -13,10 +13,14 @@ class MedicalController extends Controller
      */
     public function index()
     {
-        $username = Auth::user()->name;
-        $imageuser=Auth::user()->image;
-        $medicals = Medical::all();
-        return view('admin.medical',compact('medicals','username','imageuser'));
+        try {
+            $username = Auth::user()->name;
+            $imageuser = Auth::user()->image;
+            $medicals = Medical::all();
+            return view('admin.medical', compact('medicals', 'username', 'imageuser'));
+        } catch (\Throwable $th) {
+            return $th;
+        }
     }
 
     /**
@@ -24,48 +28,60 @@ class MedicalController extends Controller
      */
     public function create()
     {
-        $username = Auth::user()->name;
-        $imageuser=Auth::user()->image;
-        return view('admin.createMedical', compact('username','imageuser'));
+        try {
+            $username = Auth::user()->name;
+            $imageuser = Auth::user()->image;
+            return view('admin.createMedical', compact('username', 'imageuser'));
+        } catch (\Throwable $th) {
+            return $th;
+        }
     }
 
     /**
      * Store a newly created resource in storage.
      */
-        public function store(Request $request)
-        {
-            // Validation des données
-            $validatedData = $request->validate([
-                'name' => 'required|string|max:255',
-                'location' => 'required|string|max:255',
-                'phone_number' => 'required|string|max:20',
-                'address' => 'required|string|max:255',
-            ]);
-    
+    public function store(Request $request)
+    {
+        // Validation des données
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'phone_number' => 'required|string|max:20',
+            'address' => 'required|string|max:255',
+        ]);
+        try {
+
             // Création d'une nouvelle instance de Medical avec les données validées
             $medical = new Medical();
             $medical->name = $validatedData['name'];
             $medical->location = $validatedData['location'];
             $medical->phone_number = $validatedData['phone_number'];
             $medical->address = $validatedData['address'];
-            
+
             // Enregistrement de l'instance dans la base de données
             $medical->save();
-    
+
             // Redirection vers une page de succès ou de confirmation
             return redirect()->route('medical.index')->with('success', 'Le nouveau médical a été ajouté avec succès.');
+        } catch (\Throwable $th) {
+            return $th;
         }
-    
+    }
+
 
     /**
      * Display the specified resource.
      */
     public function show(Request $request)
     {
-        $username = Auth::user()->name;
-        $imageuser=Auth::user()->image;
-        $medicals = Medical::paginate(6);
-        return view('user.medicals',compact('medicals','username','imageuser'));
+        try {
+            $username = Auth::user()->name;
+            $imageuser = Auth::user()->image;
+            $medicals = Medical::paginate(6);
+            return view('user.medicals', compact('medicals', 'username', 'imageuser'));
+        } catch (\Throwable $th) {
+            return $th;
+        }
     }
 
     /**
@@ -73,9 +89,13 @@ class MedicalController extends Controller
      */
     public function edit(Medical $medical)
     {
-        $username = Auth::user()->name;
-        $imageuser=Auth::user()->image;
-        return view('admin.editMedical', compact('medical','username','imageuser'));
+        try {
+            $username = Auth::user()->name;
+            $imageuser = Auth::user()->image;
+            return view('admin.editMedical', compact('medical', 'username', 'imageuser'));
+        } catch (\Throwable $th) {
+            return $th;
+        }
     }
 
     /**
@@ -89,8 +109,9 @@ class MedicalController extends Controller
             'location' => 'required|string|max:255',
             'phone_number' => 'required|string|max:20',
             'address' => 'required|string|max:255',
-         ]);
+        ]);
 
+        try {
             $medical->name = $request->name;
             $medical->location = $request->location;
             $medical->phone_number = $request->phone_number;
@@ -101,6 +122,9 @@ class MedicalController extends Controller
             $medical->save();
 
             return redirect()->route('medical.index')->with('success', 'Le dossier médical a été mis à jour avec succès.');
+        } catch (\Throwable $th) {
+            return $th;
+        }
     }
 
     /**
@@ -108,9 +132,13 @@ class MedicalController extends Controller
      */
     public function delete(Medical $medical)
     {
-           // Supprimer l'élément médical
-           $medical->delete();
-           // Redirection vers une page de succès ou de confirmation
-           return redirect()->route('medical.index')->with('success', 'Le médical a été supprimé avec succès.');
+        try {
+            // Supprimer l'élément médical
+            $medical->delete();
+            // Redirection vers une page de succès ou de confirmation
+            return redirect()->route('medical.index')->with('success', 'Le médical a été supprimé avec succès.');
+        } catch (\Throwable $th) {
+            return $th;
+        }
     }
 }

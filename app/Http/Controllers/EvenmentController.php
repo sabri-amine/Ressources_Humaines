@@ -13,10 +13,14 @@ class EvenmentController extends Controller
      */
     public function index()
     {
-        $username = Auth::user()->name;
-        $imageuser=Auth::user()->image;
-        $images = Evenment::all();
-        return view('admin.ListDayToDay',compact('images','username','imageuser'));
+        try {
+            $username = Auth::user()->name;
+            $imageuser = Auth::user()->image;
+            $images = Evenment::all();
+            return view('admin.ListDayToDay', compact('images', 'username', 'imageuser'));
+        } catch (\Throwable $th) {
+            return $th;
+        }
     }
 
     /**
@@ -24,40 +28,44 @@ class EvenmentController extends Controller
      */
     public function create()
     {
-        $username = Auth::user()->name;
-        $imageuser=Auth::user()->image;
-        return view('admin.createToDay', compact('username','imageuser'));
+        try {
+            $username = Auth::user()->name;
+            $imageuser = Auth::user()->image;
+            return view('admin.createToDay', compact('username', 'imageuser'));
+        } catch (\Throwable $th) {
+            return $th;
+        }
     }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-{
-    $request->validate([
-        'date' => 'required',
-        'image' => 'required|image|mimes:jpeg,png,jpg,gif', // Validation de l'image
-    ]);
-
-    if ($request->hasFile('image')) {
-        try {
-            $imagePath = $request->file('image')->store('public/images');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Une erreur est survenue lors du téléchargement de l\'image.');
-        }
-    }
-
-    try {
-        Evenment::create([
-            'date' => $request->date, // Ajout du champ date
-            'image' => basename($imagePath),
+    {
+        $request->validate([
+            'date' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif', // Validation de l'image
         ]);
-    } catch (\Exception $e) {
-        return redirect()->back()->with('error', 'Une erreur est survenue lors de la création de l\'événement.');
-    }
 
-    return redirect()->route('daytoday.index')->with('success', 'Événement créé avec succès.');
-}
+        if ($request->hasFile('image')) {
+            try {
+                $imagePath = $request->file('image')->store('public/images');
+            } catch (\Exception $e) {
+                return redirect()->back()->with('error', 'Une erreur est survenue lors du téléchargement de l\'image.');
+            }
+        }
+
+        try {
+            Evenment::create([
+                'date' => $request->date, // Ajout du champ date
+                'image' => basename($imagePath),
+            ]);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Une erreur est survenue lors de la création de l\'événement.');
+        }
+
+        return redirect()->route('daytoday.index')->with('success', 'Événement créé avec succès.');
+    }
 
 
     /**
@@ -70,7 +78,7 @@ class EvenmentController extends Controller
         $images = Evenment::all(); // Utilisez Evenment::all() pour récupérer toutes les images
         return view('user.ToDay', compact('images', 'username', 'imageuser'));
     }
-    
+
 
     /**
      * Show the form for editing the specified resource.
@@ -92,9 +100,8 @@ class EvenmentController extends Controller
      * Remove the specified resource from storage.
      */
     public function delete(Evenment $evenment)
-{
-    $evenment->delete();
-    return redirect()->route('daytoday.index')->with('success', 'Image supprimée avec succès.');
-}
-
+    {
+        $evenment->delete();
+        return redirect()->route('daytoday.index')->with('success', 'Image supprimée avec succès.');
+    }
 }
