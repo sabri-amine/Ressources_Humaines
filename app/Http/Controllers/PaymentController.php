@@ -15,10 +15,14 @@ class PaymentController extends Controller
     public function index()
     {
         // $prix=Hotel::all();
-        $username = Auth::user()->name;
-        $imageuser=Auth::user()->image;
-        $users =Payment::all();
-        return view('admin.payment',compact('users','username','imageuser'));
+        try {
+            $username = Auth::user()->name;
+            $imageuser = Auth::user()->image;
+            $users = Payment::all();
+            return view('admin.payment', compact('users', 'username', 'imageuser'));
+        } catch (\Throwable $th) {
+            return $th;
+        }
     }
 
     /**
@@ -36,9 +40,13 @@ class PaymentController extends Controller
     {
 
         // dd($request);
-        $input=$request->all();
-        Payment::create($input);
-        return redirect()->route('userHotels.show')->with('success', 'Paiement créé avec succès');
+        try {
+            $input = $request->all();
+            Payment::create($input);
+            return redirect()->route('userHotels.show')->with('success', 'Paiement créé avec succès');
+        } catch (\Throwable $th) {
+            return $th;
+        }
     }
 
 
