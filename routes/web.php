@@ -35,72 +35,65 @@ Route::controller(AuthController::class)->group(function (){
 
 Route::get('/Home',[HomeController::class, 'index'])->name('Home');
 
-Route::get('/admin/home', [HomeController::class, 'adminHome'])->name('admin/home');
-Route::get('/admin/home/{id}', [HomeController::class, 'show'])
-->where('id','\d+')
-->name('profiles.show');
 
-Route::post('/reserver',[CertafiqueController::class,'store'])->name('reserver');
-Route::post('/valid',[CertafiqueController::class,'edit'])->name('valid');
-Route::get('/admin/certificat', [CertafiqueController::class, 'index'])->name('admin/certificat');
+
+Route::middleware('isAdmin')->group(function(){
+    Route::get('/admin/home', [HomeController::class, 'adminHome'])->name('admin/home');
+    Route::get('/admin/certificat', [CertafiqueController::class, 'index'])->name('admin/certificat');
+    Route::get('/admin/home/{id}', [HomeController::class, 'show'])
+    ->where('id','\d+')
+    ->name('profiles.show');
+    Route::get('/admin/profile', [HomeController::class, 'showadmin'])->name('admin.profile');
+    Route::delete('/admin/delete/{id}', [HomeController::class, 'delete'])->name('admin.delete');
+    Route::get('admin/daytoday',[EvenmentController::class,'index'])->name('daytoday.index');
+    Route::get('admin/daytoday/create',[EvenmentController::class,'create'])->name('daytoday.create');
+    Route::post('admin/daytoday/store',[EvenmentController::class,'store'])->name('daytoday.store');
+    Route::delete('admin/daytoday/{evenment}', [EvenmentController::class,'delete'])->name('daytoday.delete');
+    Route::get('admin/hotel', [HotelController::class, 'index'])->name('hotel.index');
+    Route::get('admin/hotel/create', [HotelController::class, 'create'])->name('hotel.create');
+    Route::post('admin/hotel/store', [HotelController::class, 'store'])->name('hotel.store');
+    Route::delete('admin/hotel/{id}', [HotelController::class, 'delete'])->name('hotel.delete');
+    Route::get('admin/hotel/{id}/edit',[HotelController::class, 'edit'])->name('hotel.edit');
+    Route::put('admin/hotel/{id}',[HotelController::class, 'update'])->name('hotel.update');
+    Route::get('admin/medical',[MedicalController::class,'index'])->name('medical.index');
+    Route::get('admin/createMedical', [MedicalController::class, 'create'])->name('createMedical.create');
+    Route::post('admin/medical/store',[MedicalController::class,'store'])->name('medical.store');
+    Route::delete('admin/medical/{medical}',[MedicalController::class,'delete'])->name('medical.delete');
+    Route::get('/payments/admin', [PaymentController::class, 'index'])->name('payments.index');
+    Route::get('admin/medical/{medical}/edit',[medicalController::class, 'edit'])->name('medical.edit');
+    Route::put('admin/medical/{medical}',[medicalController::class, 'update'])->name('medical.update');
+    Route::post('valid',[CertafiqueController::class,'edit'])->name('valid');
+    
+});
+
 Route::get('/userForm', [CertafiqueController::class, 'getform'])->name('userForm');
+Route::post('reserver',[CertafiqueController::class,'store'])->name('reserver');
 // Route::get('/AfficheProfleUser', [CertafiqueController::class, 'AfficheProfleUser'])->name('AfficheProfleUser');
 
 Route::get('/user/hotels', [HotelController::class, 'show'])->name('userHotels.show');
 
-Route::get('/hotel', [HotelController::class, 'index'])->name('hotel.index');
-Route::get('/hotel/create', [HotelController::class, 'create'])->name('hotel.create');
-Route::post('/hotel/store', [HotelController::class, 'store'])->name('hotel.store');
-Route::delete('/hotel/{id}', [HotelController::class, 'delete'])->name('hotel.delete');
-
 ############### Modifier Hotel #########################
-
-Route::get('/hotel/{id}/edit',[HotelController::class, 'edit'])->name('hotel.edit');
-Route::put('/hotel/{id}',[HotelController::class, 'update'])->name('hotel.update');
-
-
-Route::get('/admin/profile', [HomeController::class, 'showadmin'])->name('admin.profile');
-Route::delete('/admin/delete/{id}', [HomeController::class, 'delete'])->name('admin.delete');
-
-
 
 Route::get('/profileUser', [HomeController::class, 'profileUser'])->name('user.profile');
 
 ############### Modifier user ou admin #########################
 
-Route::get('/profile/{id}/editUserProfile',[HomeController::class, 'editUserProfile'])->name('profile.editUserProfile');
+Route::get('users/profile/{id}/editUserProfile',[HomeController::class, 'editUserProfile'])->name('profile.editUserProfile');
+Route::get('users/profile/{id}/edit',[HomeController::class, 'edit'])->name('profile.edit');
+Route::put('user/profile/{id}',[HomeController::class, 'update'])->name('profile.update');
 
-Route::get('/profile/{id}/edit',[HomeController::class, 'edit'])->name('profile.edit');
-Route::put('/profile/{id}',[HomeController::class, 'update'])->name('profile.update');
-
-
-
-
-
-Route::get('/daytoday',[EvenmentController::class,'index'])->name('daytoday.index');
-Route::get('/daytoday/create',[EvenmentController::class,'create'])->name('daytoday.create');
-Route::post('/daytoday/store',[EvenmentController::class,'store'])->name('daytoday.store');
-Route::delete('/daytoday/{evenment}', [EvenmentController::class,'delete'])->name('daytoday.delete');
-Route::get('/today',[EvenmentController::class,'show'])->name('today.show');
-
-
-Route::get('/medical',[MedicalController::class,'index'])->name('medical.index');
-Route::get('/createMedical', [MedicalController::class, 'create'])->name('createMedical.create');
-Route::post('/medical/store',[MedicalController::class,'store'])->name('medical.store');
-Route::delete('/medical/{medical}',[MedicalController::class,'delete'])->name('medical.delete');
-Route::get('/medicals',[MedicalController::class,'show'])->name('medicals.show');
+############### today #########################
+Route::get('users/today',[EvenmentController::class,'show'])->name('today.show');
 
 
 ############### Modifier Medical #########################
-
-Route::get('/medical/{medical}/edit',[medicalController::class, 'edit'])->name('medical.edit');
-Route::put('/medical/{medical}',[medicalController::class, 'update'])->name('medical.update');
+Route::get('users/medicals',[MedicalController::class,'show'])->name('medicals.show');
 
 
 
 
-Route::post('/payments', [PaymentController::class, 'store'])->name('payments.store');
-Route::get('/payments/admin', [PaymentController::class, 'index'])->name('payments.index');
 
+
+Route::post('admin/payments', [PaymentController::class, 'store'])->name('payments.store');
 
 

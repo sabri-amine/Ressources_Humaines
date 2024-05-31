@@ -36,9 +36,9 @@ class PaymentController extends Controller
     {
 
         // dd($request);
-        $input=$request->all();
-        Payment::create($input);
-        return redirect()->route('userHotels.show')->with('success', 'Paiement créé avec succès');
+        // $input=$request->all();
+        Payment::create($request->all());
+        return redirect()->route('userHotels.show');
     }
 
 
