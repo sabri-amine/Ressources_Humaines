@@ -1,4 +1,5 @@
 @extends('Layouts.user')
+@section('title', 'Mon Profil')
 @section('contents')
     <section>
         <div class="container light-style flex-grow-1 container-p-y" >

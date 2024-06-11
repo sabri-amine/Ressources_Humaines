@@ -49,9 +49,13 @@ class CertafiqueController extends Controller
     public function store(Request $request)
     {
         // dd($request);
+
+        $user_id = auth()->user()->id;
+
         $certfique=Certafique::create([
             'date_reservation'=>$request->date,
             'demande'=>$request->choix,
+            'user_id' => $user_id,
         ]);
         return redirect()->route('Home');
         //

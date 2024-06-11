@@ -59,9 +59,9 @@ Route::middleware('isAdmin')->group(function(){
     Route::get('admin/createMedical', [MedicalController::class, 'create'])->name('createMedical.create');
     Route::post('admin/medical/store',[MedicalController::class,'store'])->name('medical.store');
     Route::delete('admin/medical/{medical}',[MedicalController::class,'delete'])->name('medical.delete');
-    Route::get('/payments/admin', [PaymentController::class, 'index'])->name('payments.index');
     Route::get('admin/medical/{medical}/edit',[medicalController::class, 'edit'])->name('medical.edit');
     Route::put('admin/medical/{medical}',[medicalController::class, 'update'])->name('medical.update');
+    Route::get('/payments/admin', [PaymentController::class, 'index'])->name('payments.index');
     Route::post('valid',[CertafiqueController::class,'edit'])->name('valid');
     
 });

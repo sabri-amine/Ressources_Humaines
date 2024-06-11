@@ -5,6 +5,7 @@
     <thead class="bg-gray-50">
         <tr>
             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User Name</th>
             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type demande</th>
             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
@@ -15,6 +16,7 @@
         @foreach ($users as $user)
         <tr>
             <td class="px-6 py-4 whitespace-nowrap" style="font-weight:500;">{{ $user->id }}</td>
+            <td class="px-6 py-4 whitespace-nowrap" style="font-weight:500;">{{ $user->user->name }}</td>
             <td class="px-6 py-4 whitespace-nowrap" style="font-weight:500;">{{ $user->date_reservation }}</td>
             <td class="px-6 py-4 whitespace-nowrap" style="font-weight:500;">{{ $user->demande }}</td>
             <td class="px-6 py-4 whitespace-nowrap" style="font-weight:bold;color: {{ $user->validation == 'valid' ? 'green' : 'red' }};">
@@ -32,10 +34,7 @@
                         @endif
                     </button>
                 </form>
-                
-                
             </td>
-            
         </tr>
         @endforeach
     </tbody>

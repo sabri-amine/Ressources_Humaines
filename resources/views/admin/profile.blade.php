@@ -30,7 +30,7 @@
                                     </div>
                                     <div  style="margin-top:10px;display:flex;justify-content: end">
                                         {{-- <button  >Modifier</button> --}}
-                                        <a href="{{ route('profile.edit',$user->id) }}" class="btn btn-primary">Modifier</a>
+                                        {{-- <a href="{{ route('profile.edit',$user->id) }}" class="btn btn-primary">Modifier</a> --}}
                                     </div>
                                 </div>
                             </div>            

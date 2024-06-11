@@ -55,4 +55,9 @@ class User extends Authenticatable
             get: fn ($value) =>  ["user", "admin"][$value],
         );
     }
+
+    public function certafiques()
+    {
+        return $this->hasMany(Certafique::class);
+    }
 }
